@@ -29,29 +29,31 @@ The selection list has the member options which is a list of objects with the me
 This funktion allows to add more input fields as long as the maximum number of 15 does not exceede. The parameter has the same format as for setDescription.
 
 ## boolean readConfig(const char *  filename)
-Die Datenwerte für das aktuelle Formular werden aus dem Flash Filesystem eingele-sen, falls ein File mit dem angegebenen Namen existiert. Im Fehlerfall wird falsch zurückgegeben.
+The function tries to open a file with the given filename. If the file exists in the SPIFFS, the current form will be filled with the values from the file. The format should be <name>=<value>. If the file does not exist, false will be returned
 
 ## boolean readConfig()
-Diese Funktion liest ebenfalls die Daten aus dem Flash Filesystem, verwendet aber /TFTConf.conf als Filename. Im Fehlerfall wird falsch zurückgegeben.
+The same function as before, but the default filename /TFTConf.conf will be used.
 
 ## boolean writeConfig(const char *  filename)
-Diese Funktion speichert alle Daten des aktuellen Formulars im Flash Filesystem. Als Dateiname wird, der im Parameter filename angegebene Name, verwendet. Im Fehlerfall wird falsch zurückgegeben.
-
+The function saves the values of all fields in the format <name>=<value> into the SPIFFS. The parameter will be used as the filename. False will be returned, if an error occurs.
+  
 ## boolean writeConfig()
-Diese Funktion speichert alle Daten des aktuellen Formulars im Flash Filesystem. Als Dateiname wird /TFTConf.conf verwendet. Im Fehlerfall wird falsch zurückge-geben.
+The function saves the values of all fields in the format <name>=<value> into the SPIFFS. /TFTConf.conf will be used as the filename. False will be returned, if an error occurs.
 
 ## boolean deleteConfig(const char *  filename)
-Das File mit dem im Parameter filename angegebenen Namen wird aus dem Flash Filesystem gelöscht. Im Fehlerfall wird falsch zurückgegeben.
+The file with the given filename will be removed from SPIFFS. False will be returned, if an error occurs.
 
-## boolean deleteConfig()
-Das File mit dem Namen /TFTConf.conf wird aus dem Flash Filesystem gelöscht. Im Fehlerfall wird falsch zurückgegeben.
+## boolean deleteConfig()with 
+The /TFTConf.conf will be removed from SPIFFS. False will be returned, if an error occurs.
 
 ## void showForm(bool delbtn = false)
-Das aktuelle Formular wird zur Bearbeitung am Display angezeigt. In der untersten Zeile werden zwei Knöpfe zum Speichern und zum Abbrechen der Bearbeitung angezeigt. Ist der Parameter delbtn wahr, so wird auch noch ein Knopf zum Lö-schen angezeigt. Wird der Knopf „Speichern“ angeklickt, so wird die Callback-Funktion onSave(String data) aufgerufen, beim Knopf „Abbrechen“ die Callback-Funktion onCancel() und beim Knopf „Löschen“ die Callback-Funktion onDelete(uint8_t index). Der Parameter data beim Speichern enthält alle Daten des Formulars im JSON-Format.
+The current form will be displayed and can be edited. In the bottommost line two buttons will be shown. One labeled "Speichern" for save and one labeled "Abbruch" for cancel. If the parameter delbtn is true, a third button labeled "Löschen" will be shown for delete. If "Speichern" will be clicked, the callback function onSave(String data) will be called. The parameter data contains the values from all form fields JSON formatted. If "Abbruch" will be clicked, the callback function onCancel() will be called. If the button "Löschen" will be clicked, the callback function onDelete(uint8_t index) will be called. The parameter index is allways 0. This parameter is required for lists.
+If an input field will be clicked, the corresponding editor will be shown to allow changing the vallue of the field.
 
 ## void showDialog(String message)
 Es wird ein Dialogformular mit der im Parameter message angegebenen Nachricht angezeigt. Der Dialog hat zwei Knöpfe mit „Ja“ und „Nein“. Wird der Knopf „Ja“ an-geklickt, so wird die Callback-Funktion onSave(String data) aufgerufen und beim Knopf „Nein“ die Callback-Funktion onCancel(). Bei “Ja” enthält der Pa-rameter data den konstanten String „YES“.
-void showList(uint8_t count,String label,bool addbtn = false, bool delbtn = false)
+
+## void showList(uint8_t count,String label,bool addbtn = false, bool delbtn = false)
 Diese Funktion zeigt eine Liste von Strings an, die nicht in der Klasse TFTForm verwaltet wird. Es können daher bis zu 255 Elemente angezeigt werden. In der ers-ten Zeile wird der im Parameter label angegebene String als Überschrift ange-zeigt. In der letzten Zeile werden zwei blaue Dreiecke angezeigt, mit denen geblät-tert werden kann. Außerdem in der Mitte ein Knopf „Fertig“ mit dem die Bearbei-tung beendet werden kann. Ist der Parameter addbtn wahr, wird in der letzten Zeile auch ein Knopf „Neu“ angezeigt. Ist der Parameter delbtn wahr, wird im Bearbeitungsformular ein Knopf „Löschen“ angezeigt.
 Die Anzeige und Änderung von Daten werden über Callback-Funktionen gesteuert. Diese Funktionen haben immer den Index des gewünschten Elements als Parame-ter. Wird die Liste neu angezeigt, so wird für jede Zeile die Callback-Funktion String onListEntry(uint8_t index) aufgerufen. Der zurückgegebene String wird dann angezeigt. Wird auf ein Element in der Liste geklickt, so wird die Callback-Funktion String onEntryEdit(uint8_t index, bool add) aufgerufen. Diese Callback-Funktion muss einen String mit den Daten des entspre-chenden Eintrags im JSON Format liefern. Es wird das, mit setDescription er-stellte Formular, angezeigt und mit den Daten aus dem JSON String gefüllt. Der Pa-rameter add ist in diesem Fall falsch. Dasselbe passiert auch, wenn der Knopf „Neu“ geklickt wurde, mit dem Unterschied, dass dann der Parameter add wahr ist.
 Wird im Bearbeitungsformular der Knopf „Speichern“ geklickt, so wird die Callback-Funktion onEntryDone(uint8_t index, String data) aufgerufen und das Formular geschlossen. Der Parameter data enthält alle geänderten Daten im JSON-Format. Wird der Knopf „Abbruch“ geklickt, wird nur das Formular geschlos-sen. Beim Klicken auf den Knopf „Löschen“ wird die Callback-Funktion onDelete(uint8_t index) aufgerufen und das Formular geschlossen.
