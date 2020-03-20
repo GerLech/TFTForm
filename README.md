@@ -87,24 +87,25 @@ This function register a callback function String onEntryEdit(uint8_t index, boo
 This function register a callback function onEntryDone(uint8_t index, String data). This callback function will be called whenever a form to edit a list entry will be closed by the save button. The paramter index is the position within the list and the parameter data contains the JSON formatted values from the form.
 
 ## void setOptions(const char name[],  uint8_t optionsCount, String options[])
-Mit dieser Funktion können zu einem Auswahllisten Eingabeelement Optionen hin-zugefügt werden. Der Parameter name gibt den Namen des Eingabefeldes an. Der Parameter optionsCount gibt die Anzahl der Optionen an, die hinzugefügt wer-den sollen. Der Parameter options enthält eine Liste von Strings, die die einzel-nen Optionen definieren. Wenn ein String mit einer Option ein Gleichheitszeichen enthält, wird der Teil vor dem Gleichheitszeichen als Wert und der nach dem Gleichheitszeichen als Beschriftung interpretiert. Enthält der String kein Gleichheits-zeichen, wird er für Wert und Beschriftung verwendet.
+With this function more options can be added to a selection list. The parameter name is the field name of the selection list. The parameter optionsCount is the number of options to be added. The last parameter options is a list of strings to hold the new options. if a string contains an equal sign, the string before the equal sign is used as value and the string after the equal sign is used as the label. If there is no equal sign, the string will be used for both, value and label.
 
 ## void addOption(const char name[], String option)
-Diese Funktion fügt eine neue Option hinzu. Der Parameter name ist der Name des Eingabefeldes. Der Parameter option ist ein String mit der Option. Für das Format des Strings gilt dasselbe wie bei der Funktion setOptions.
-void addOption(uint8_t index, String option)
-Diese zweite Variante der Funktion addOption erhält mit dem Parameter index den Index des Eingabefeldes im Formular an Stelle des Namens. Die Funktion selbst ist identisch.
+This function adds one new option to a selection list. The parameter name is the field name of the selection list. The parameter option is a string to hold the new option. if the string contains an equal sign, the string before the equal sign is used as value and the string after the equal sign is used as the label. If there is no equal sign, the string will be used for both, value and label. 
+
+## void addOption(uint8_t index, String option)
+In difference to the previous function, this function needs the position of the selection list field within the form.
 
 ## void clearOptions(const char name[])
-Diese Funktion löscht alle Optionen eines Auswahllisten Eingabeelements. Der Pa-rameter name enthält den Namen des Eingabeelements.
+This function clears all options from the selection list of the input field named name.
 
 ## void setValues(String json)
-Diese Funktion füllt das aktuelle Formular mit den Daten aus dem Parameter json. Wie der Name sagt, handelt es sich dabei um einen String im JSON Format. Als Schlüsselworte werden die Namen der Eingabeelemente verwendet.
+This function fills all input fields of the current form with values. The parameter json contains a JSON object. The name of the input fi8eld is used as the key.
 
 ## int8_t findName(const char name[])
-Diese Funktion returniert den Index des Eingabeelements mit dem Namen, der im Parameter name angegeben wurde. Wenn kein entsprechende Eingabeelement gefunden wurde, wird -1 zurückgegeben.
+This function returns the position of an input field named name within the current form. If no field was found, the function returns -1.
 
 ## bool isActive()
-Mit dieser Funktion kann festgestellt werden, ob ein Formular, eine Liste oder ein Ja/Nein Dialog angezeigt wird. Der Rückgabewert dieser Funktion kann dazu genutzt werden, Touchscreen Ereignisse nur dann an TFTForm weiterzugeben, wenn eine Anzeige aktiv ist.
+Theis function returns true, if a form, a list or a dialog will be displayed. It can be used to decide if a touchscreen event should be forwarded to the TFTForm instance or not.
 
 ## String getOption(uint8_t index, String val)
-Diese Funktion returniert vom Auswahllisten Eingabefeld mit dem, im Parameter index angegebenen Index die Beschriftung der Option, die dem im Parameter val angegebenen Wert, entspricht. Gibt es keine solche Option, so wird ein Leer-string zurückgegeben.
+This function returns the label for the option within the selection list on position index in the form, which has the value val. If no option was found, the function returns -1
