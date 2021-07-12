@@ -533,10 +533,15 @@ void TFTForm::formClick(int16_t x, int16_t y) {
         _listEdt = line-1+_listOffset;
         if (_listEdt < _listCount) {
           String val = _onEntryEdit(_listEdt,false);
-          if ((val=="") || (val[0]= '{')) {
-            if (val != "") setValues(val);
-            _mode = MODE_LISTFORM;
-            showFormIntern();
+          if (val == "~~close~~") {
+            if (_onCancel) _onCancel();
+            _formActive = false;
+          } else {
+            if ((val=="") || (val[0]= '{') ) {
+              if (val != "") setValues(val);
+              _mode = MODE_LISTFORM;
+              showFormIntern();
+            }
           }
         }
       }
@@ -617,6 +622,19 @@ void TFTForm::formClick(int16_t x, int16_t y) {
   }
 }
 
+String TFTForm::getValue(const char name[]){
+  uint8_t index;
+  index = findName(name);
+  if (index < 0) {
+    return "";
+  } else {
+    return _values[index];
+  }
+}
+
+void TFTForm::closeForm() {
+  _formActive = false;
+}
 void TFTForm::kbdClick(int16_t x, int16_t y){
   uint8_t r,c,index;
   char ch;

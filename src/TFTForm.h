@@ -152,6 +152,8 @@ public:
   bool isActive();
   //return option label for value
   String getOption(uint8_t index, String val);
+  String getValue(const char name[]);
+  void closeForm();
 private:
   String _values[TFT_MAXVALUES];
   char _buf[1000];
