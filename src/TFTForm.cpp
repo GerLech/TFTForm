@@ -177,7 +177,7 @@ void TFTForm::addDescription(String parameter){
         if (obj.containsKey("name")) strlcpy(_description[_count].name,obj["name"],15);
         if (obj.containsKey("label")) strlcpy(_description[_count].label,obj["label"],40);
         if (obj.containsKey("type")) {
-          if (obj["type"].is<char *>()) {
+          if (obj["type"].is<const char *>()) { 
             uint8_t t = 0;
             strlcpy(tmp,obj["type"],30);
             Serial.println(tmp);
